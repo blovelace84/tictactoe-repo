@@ -22,19 +22,26 @@ int checkWin() {
     int i;
     // Check rows and columns
     for(i = 0; i < 3; i++) {
-        if(gameboard[i][0] == gameboard[i][1] && gameboard[i][1] == gameboard[i][2])
+        if (gameboard[i][0] == gameboard[i][1] 
+         && gameboard[i][1] == gameboard[i][2]
+         && (gameboard[i][0] == 'X' || gameboard[i][0] == 'O'))
             return 1;
-        if(gameboard[0][i] == gameboard[1][i] && gameboard[1][i] == gameboard[2][i])
+        if (gameboard[0][i] == gameboard[1][i] 
+         && gameboard[1][i] == gameboard[2][i]
+         && (gameboard[0][i] == 'X' || gameboard[0][i] == 'O'))
             return 1;
     }
     // Check diagonals
-    if(gameboard[0][0] == gameboard[1][1] && gameboard[1][1] == gameboard[2][2])
+    if (gameboard[0][0] == gameboard[1][1] 
+     && gameboard[1][1] == gameboard[2][2]
+     && (gameboard[0][0] == 'X' || gameboard[0][0] == 'O'))
         return 1;
-    if(gameboard[0][2] == gameboard[1][1] && gameboard[1][1] == gameboard[2][0])
+    if (gameboard[0][2] == gameboard[1][1] 
+     && gameboard[1][1] == gameboard[2][0]
+     && (gameboard[0][2] == 'X' || gameboard[0][2] == 'O'))
         return 1;
     return 0;
 }
-
 int checkDraw() {
     int i, j;
     for(i = 0; i < 3; i++)
@@ -50,8 +57,12 @@ int main() {
     while(!win && !draw) {
         printBoard();
         printf("Player %d, enter a number (1-9): ", player);
-        scanf("%d", &choice);
-
+        if (scanf("%d", &choice) != 1 || choice < 1 || choice > 9) {
+            printf("Invalid input. Please enter a number between 1-9.\n");
+            // Clear input buffer
+            while (getchar() != '\n');
+            continue;
+        }
         // Map choice to board
         row = (choice - 1) / 3;
         col = (choice - 1) % 3;
